@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _message = '';
 
   void _sendAnalyticsEvent() {
-    new FirebaseAnalytics().logEvent('test_event').then((_) async {
+    new FirebaseAnalytics().logEvent(name: 'test_event').then((_) async {
       setState(() {
         _message = 'Analytics event sent successfully';
       });

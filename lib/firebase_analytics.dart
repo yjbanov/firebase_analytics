@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:meta/meta.dart';
+
 import 'package:flutter/services.dart';
 
 /// Firebase Analytics API.
@@ -15,14 +17,10 @@ class FirebaseAnalytics {
   const FirebaseAnalytics._();
 
   /// Logs an anlytics event with the given [name] and event [parameters].
-  Future<Null> logEvent(String name, [Map<String, String> parameters]) async {
-    Map<String, dynamic> data = <String, dynamic>{
+  Future<Null> logEvent({@required String name, Map<String, String> parameters}) async {
+    await _channel.invokeMethod('logEvent', <String, dynamic>{
       'name': name,
-    };
-
-    if (parameters != null)
-      data['parameters'] = parameters;
-
-    await _channel.invokeMethod('logEvent', data);
+      'parameters': parameters,
+    });
   }
 }

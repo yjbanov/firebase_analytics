@@ -34,16 +34,16 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
       final String eventName = (String) arguments.get("name");
 
       @SuppressWarnings("unchecked")
-      final Map<String, String> jsonParams = (Map<String, String>) arguments.get("parameters");
-      final Bundle eventParameters = new Bundle();
+      final Map<String, String> parameterMap = (Map<String, String>) arguments.get("parameters");
+      final Bundle parameterBundle = new Bundle();
 
-      if (jsonParams != null) {
-        for (Map.Entry<String, String> jsonParam : jsonParams.entrySet()) {
-          eventParameters.putString(jsonParam.getKey(), jsonParam.getValue());
+      if (parameterMap != null) {
+        for (Map.Entry<String, String> jsonParam : parameterMap.entrySet()) {
+          parameterBundle.putString(jsonParam.getKey(), jsonParam.getValue());
         }
       }
 
-      firebaseAnalytics.logEvent(eventName, eventParameters);
+      firebaseAnalytics.logEvent(eventName, parameterBundle);
       response.success("OK");
     } else {
       response.notImplemented();
