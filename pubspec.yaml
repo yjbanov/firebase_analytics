@@ -1,0 +1,12 @@
+name: firebase_analytics
+description: Firebase Analytics plugin for Flutter applications.
+
+flutter:
+  plugin:
+    androidPackage: io.flutter.firebase_analytics
+    pluginClass: FirebaseAnalyticsPlugin
+
+dependencies:
+  meta: ^1.0.4
+  flutter:
+    sdk: flutter
