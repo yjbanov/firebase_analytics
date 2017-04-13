@@ -44,7 +44,7 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
       }
 
       firebaseAnalytics.logEvent(eventName, parameterBundle);
-      response.success("OK");
+      response.success(null);
     } else {
       response.notImplemented();
     }
