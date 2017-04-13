@@ -1,19 +1,39 @@
 #import "FirebaseAnalyticsPlugin.h"
 
+#import "Firebase/Firebase.h"
+
 @implementation FirebaseAnalyticsPlugin {
 }
 
-- (instancetype)initWithController:(FlutterViewController *)controller {
+- (instancetype)initWithController:(FlutterViewController *)flutterView {
   self = [super init];
   if (self) {
+    if (![FIRApp defaultApp]) {
+      [FIRApp configure];
+    }
     FlutterMethodChannel *channel = [FlutterMethodChannel
-        methodChannelWithName:@"firebase_analytics"
-           binaryMessenger:controller];
+                                     methodChannelWithName:@"firebase_analytics"
+                                     binaryMessenger:flutterView];
     [channel setMethodCallHandler:^(FlutterMethodCall *call,
                                     FlutterResultReceiver result) {
-      if ([@"getPlatformVersion" isEqualToString:call.method]) {
-        result([@"iOS " stringByAppendingString:[[UIDevice currentDevice]
-                                                    systemVersion]]);
+      if ([@"logEvent" isEqualToString:call.method]) {
+        NSString *eventName = call.arguments[@"name"];
+        id parameterMap = call.arguments[@"parameters"];
+
+        if (parameterMap != [NSNull null]) {
+          [FIRAnalytics logEventWithName:eventName
+                        parameters:parameterMap];
+        } else {
+          [FIRAnalytics logEventWithName:eventName
+                        parameters:nil];
+        }
+
+        result(nil);
+      } else {
+        NSString *message = [NSString stringWithFormat:@"Method not implemented: %@", call.method];
+        result([FlutterError errorWithCode:message
+                             message:message
+                             details:message]);
       }
     }];
   }
