@@ -5,7 +5,7 @@
 @implementation FirebaseAnalyticsPlugin {
 }
 
-- (instancetype)initWithController:(FlutterViewController *)flutterView {
+- (instancetype)initWithController:(FlutterViewController *)controller {
   self = [super init];
   if (self) {
     if (![FIRApp defaultApp]) {
@@ -13,7 +13,7 @@
     }
     FlutterMethodChannel *channel = [FlutterMethodChannel
                                      methodChannelWithName:@"firebase_analytics"
-                                     binaryMessenger:flutterView];
+                                     binaryMessenger:controller];
     [channel setMethodCallHandler:^(FlutterMethodCall *call,
                                     FlutterResultReceiver result) {
       if ([@"logEvent" isEqualToString:call.method]) {
