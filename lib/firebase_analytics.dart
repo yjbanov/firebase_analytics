@@ -31,7 +31,7 @@ class FirebaseAnalytics {
 
     if (name.startsWith(kReservedPrefix)) {
       throw new ArgumentError.value(name, 'name',
-          'Previx "$kReservedPrefix" is reserved and cannot be used.');
+          'Prefix "$kReservedPrefix" is reserved and cannot be used.');
     }
 
     await _channel.invokeMethod('logEvent', <String, dynamic>{
@@ -678,15 +678,15 @@ class FirebaseAnalytics {
   }
 }
 
-/// Mutates the [parameters] map, removing all parameters whose value is `null`.
+/// Creates a new map containing all of the key/value pairs from [parameters]
+/// except those whose value is `null`.
 Map<String, dynamic> _filterOutNulls(Map<String, dynamic> parameters) {
-  // To prevent concurrent modification
-  final List<String> copyOfKeys = parameters.keys.toList();
-  for (String key in copyOfKeys) {
-    if (parameters[key] == null)
-      parameters.remove(key);
-  }
-  return parameters;
+  final Map<String, dynamic> filtered = <String, dynamic>{};
+  filtered.forEach((String key, dynamic value) {
+    if (value != null)
+      filtered[key] = value;
+  });
+  return filtered;
 }
 
 void _requireValueAndCurrencyTogether(double value, String currency) {
