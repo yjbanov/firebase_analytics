@@ -1,3 +1,7 @@
+// Copyright 2017 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 package io.flutter.firebase_analytics;
 
 import java.util.Map;
@@ -34,19 +38,35 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
       final String eventName = (String) arguments.get("name");
 
       @SuppressWarnings("unchecked")
-      final Map<String, String> parameterMap = (Map<String, String>) arguments.get("parameters");
-      final Bundle parameterBundle = new Bundle();
-
-      if (parameterMap != null) {
-        for (Map.Entry<String, String> jsonParam : parameterMap.entrySet()) {
-          parameterBundle.putString(jsonParam.getKey(), jsonParam.getValue());
-        }
-      }
-
+      final Bundle parameterBundle = createBundleFromMap((Map<String, Object>) arguments.get("parameters"));
       firebaseAnalytics.logEvent(eventName, parameterBundle);
       response.success(null);
     } else {
       response.notImplemented();
     }
+  }
+
+  private static Bundle createBundleFromMap(Map<String, Object> map) {
+    if (map == null) {
+      return null;
+    }
+
+    Bundle bundle = new Bundle();
+    for (Map.Entry<String, Object> jsonParam : map.entrySet()) {
+      final Object value = jsonParam.getValue();
+      final String key = jsonParam.getKey();
+      if (value instanceof String) {
+        bundle.putString(key, (String) value);
+      } else if (value instanceof Integer) {
+        bundle.putInt(key, (Integer) value);
+      } else if (value instanceof Double) {
+        bundle.putDouble(key, (Double) value);
+      } else if (value instanceof Boolean) {
+        bundle.putBoolean(key, (Boolean) value);
+      } else {
+        throw new IllegalArgumentException("Unsupported value type: " + value.getClass().getCanonicalName());
+      }
+    }
+    return bundle;
   }
 }
