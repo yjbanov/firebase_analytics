@@ -79,18 +79,18 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'add_to_cart',
       parameters: filterOutNulls(<String, dynamic>{
-        ITEM_ID: itemId,
-        ITEM_NAME: itemName,
-        ITEM_CATEGORY: itemCategory,
-        QUANTITY: quantity,
-        PRICE: price,
-        VALUE: value,
-        CURRENCY: currency,
-        ORIGIN: origin,
-        ITEM_LOCATION_ID: itemLocationId,
-        DESTINATION: destination,
-        START_DATE: startDate,
-        END_DATE: endDate,
+        _ITEM_ID: itemId,
+        _ITEM_NAME: itemName,
+        _ITEM_CATEGORY: itemCategory,
+        _QUANTITY: quantity,
+        _PRICE: price,
+        _VALUE: value,
+        _CURRENCY: currency,
+        _ORIGIN: origin,
+        _ITEM_LOCATION_ID: itemLocationId,
+        _DESTINATION: destination,
+        _START_DATE: startDate,
+        _END_DATE: endDate,
       }),
     );
   }
@@ -118,14 +118,14 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'add_to_wishlist',
       parameters: filterOutNulls(<String, dynamic>{
-        ITEM_ID: itemId,
-        ITEM_NAME: itemName,
-        ITEM_CATEGORY: itemCategory,
-        QUANTITY: quantity,
-        PRICE: price,
-        VALUE: value,
-        CURRENCY: currency,
-        ITEM_LOCATION_ID: itemLocationId,
+        _ITEM_ID: itemId,
+        _ITEM_NAME: itemName,
+        _ITEM_CATEGORY: itemCategory,
+        _QUANTITY: quantity,
+        _PRICE: price,
+        _VALUE: value,
+        _CURRENCY: currency,
+        _ITEM_LOCATION_ID: itemLocationId,
       }),
     );
   }
@@ -164,17 +164,17 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'begin_checkout',
       parameters: filterOutNulls(<String, dynamic>{
-        VALUE: value,
-        CURRENCY: currency,
-        TRANSACTION_ID: transactionId,
-        NUMBER_OF_NIGHTS: numberOfNights,
-        NUMBER_OF_ROOMS: numberOfRooms,
-        NUMBER_OF_PASSENGERS: numberOfPassengers,
-        ORIGIN: origin,
-        DESTINATION: destination,
-        START_DATE: startDate,
-        END_DATE: endDate,
-        TRAVEL_CLASS: travelClass,
+        _VALUE: value,
+        _CURRENCY: currency,
+        _TRANSACTION_ID: transactionId,
+        _NUMBER_OF_NIGHTS: numberOfNights,
+        _NUMBER_OF_ROOMS: numberOfRooms,
+        _NUMBER_OF_PASSENGERS: numberOfPassengers,
+        _ORIGIN: origin,
+        _DESTINATION: destination,
+        _START_DATE: startDate,
+        _END_DATE: endDate,
+        _TRAVEL_CLASS: travelClass,
       }),
     );
   }
@@ -196,13 +196,13 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'campaign_details',
       parameters: filterOutNulls(<String, String>{
-        SOURCE: source,
-        MEDIUM: medium,
-        CAMPAIGN: campaign,
-        TERM: term,
-        CONTENT: content,
-        ACLID: aclid,
-        CP1: cp1,
+        _SOURCE: source,
+        _MEDIUM: medium,
+        _CAMPAIGN: campaign,
+        _TERM: term,
+        _CONTENT: content,
+        _ACLID: aclid,
+        _CP1: cp1,
       }),
     );
   }
@@ -221,8 +221,8 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'earn_virtual_currency',
       parameters: filterOutNulls(<String, dynamic>{
-        VIRTUAL_CURRENCY_NAME: virtualCurrencyName,
-        VALUE: value,
+        _VIRTUAL_CURRENCY_NAME: virtualCurrencyName,
+        _VALUE: value,
       }),
     );
   }
@@ -258,21 +258,21 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'ecommerce_purchase',
       parameters: filterOutNulls(<String, dynamic>{
-        CURRENCY: currency,
-        VALUE: value,
-        TRANSACTION_ID: transactionId,
-        TAX: tax,
-        SHIPPING: shipping,
-        COUPON: coupon,
-        LOCATION: location,
-        NUMBER_OF_NIGHTS: numberOfNights,
-        NUMBER_OF_ROOMS: numberOfRooms,
-        NUMBER_OF_PASSENGERS: numberOfPassengers,
-        ORIGIN: origin,
-        DESTINATION: destination,
-        START_DATE: startDate,
-        END_DATE: endDate,
-        TRAVEL_CLASS: travelClass,
+        _CURRENCY: currency,
+        _VALUE: value,
+        _TRANSACTION_ID: transactionId,
+        _TAX: tax,
+        _SHIPPING: shipping,
+        _COUPON: coupon,
+        _LOCATION: location,
+        _NUMBER_OF_NIGHTS: numberOfNights,
+        _NUMBER_OF_ROOMS: numberOfRooms,
+        _NUMBER_OF_PASSENGERS: numberOfPassengers,
+        _ORIGIN: origin,
+        _DESTINATION: destination,
+        _START_DATE: startDate,
+        _END_DATE: endDate,
+        _TRAVEL_CLASS: travelClass,
       }),
     );
   }
@@ -294,8 +294,8 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'generate_lead',
       parameters: filterOutNulls(<String, dynamic>{
-        CURRENCY: currency,
-        VALUE: value,
+        _CURRENCY: currency,
+        _VALUE: value,
       }),
     );
   }
@@ -313,7 +313,7 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'join_group',
       parameters: filterOutNulls(<String, dynamic>{
-        GROUP_ID: groupId,
+        _GROUP_ID: groupId,
       }),
     );
   }
@@ -332,8 +332,8 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'level_up',
       parameters: filterOutNulls(<String, dynamic>{
-        LEVEL: level,
-        CHARACTER: character,
+        _LEVEL: level,
+        _CHARACTER: character,
       }),
     );
   }
@@ -364,9 +364,9 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'post_score',
       parameters: filterOutNulls(<String, dynamic>{
-        SCORE: score,
-        LEVEL: level,
-        CHARACTER: character,
+        _SCORE: score,
+        _LEVEL: level,
+        _CHARACTER: character,
       }),
     );
   }
@@ -395,14 +395,14 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'present_offer',
       parameters: filterOutNulls(<String, dynamic>{
-        ITEM_ID: itemId,
-        ITEM_NAME: itemName,
-        ITEM_CATEGORY: itemCategory,
-        QUANTITY: quantity,
-        PRICE: price,
-        VALUE: value,
-        CURRENCY: currency,
-        ITEM_LOCATION_ID: itemLocationId,
+        _ITEM_ID: itemId,
+        _ITEM_NAME: itemName,
+        _ITEM_CATEGORY: itemCategory,
+        _QUANTITY: quantity,
+        _PRICE: price,
+        _VALUE: value,
+        _CURRENCY: currency,
+        _ITEM_LOCATION_ID: itemLocationId,
       }),
     );
   }
@@ -424,9 +424,9 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'purchase_refund',
       parameters: filterOutNulls(<String, dynamic>{
-        CURRENCY: currency,
-        VALUE: value,
-        TRANSACTION_ID: transactionId,
+        _CURRENCY: currency,
+        _VALUE: value,
+        _TRANSACTION_ID: transactionId,
       }),
     );
   }
@@ -452,15 +452,15 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'search',
       parameters: filterOutNulls(<String, dynamic>{
-        SEARCH_TERM: searchTerm,
-        NUMBER_OF_NIGHTS: numberOfNights,
-        NUMBER_OF_ROOMS: numberOfRooms,
-        NUMBER_OF_PASSENGERS: numberOfPassengers,
-        ORIGIN: origin,
-        DESTINATION: destination,
-        START_DATE: startDate,
-        END_DATE: endDate,
-        TRAVEL_CLASS: travelClass,
+        _SEARCH_TERM: searchTerm,
+        _NUMBER_OF_NIGHTS: numberOfNights,
+        _NUMBER_OF_ROOMS: numberOfRooms,
+        _NUMBER_OF_PASSENGERS: numberOfPassengers,
+        _ORIGIN: origin,
+        _DESTINATION: destination,
+        _START_DATE: startDate,
+        _END_DATE: endDate,
+        _TRAVEL_CLASS: travelClass,
       }),
     );
   }
@@ -480,8 +480,8 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'select_content',
       parameters: filterOutNulls(<String, dynamic>{
-        CONTENT_TYPE: contentType,
-        ITEM_ID: itemId,
+        _CONTENT_TYPE: contentType,
+        _ITEM_ID: itemId,
       }),
     );
   }
@@ -499,8 +499,8 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'share',
       parameters: filterOutNulls(<String, dynamic>{
-        CONTENT_TYPE: contentType,
-        ITEM_ID: itemId,
+        _CONTENT_TYPE: contentType,
+        _ITEM_ID: itemId,
       }),
     );
   }
@@ -519,7 +519,7 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'sign_up',
       parameters: filterOutNulls(<String, dynamic>{
-        SIGN_UP_METHOD: signUpMethod,
+        _SIGN_UP_METHOD: signUpMethod,
       }),
     );
   }
@@ -538,9 +538,9 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'spend_virtual_currency',
       parameters: filterOutNulls(<String, dynamic>{
-        ITEM_NAME: itemName,
-        VIRTUAL_CURRENCY_NAME: virtualCurrencyName,
-        VALUE: value,
+        _ITEM_NAME: itemName,
+        _VIRTUAL_CURRENCY_NAME: virtualCurrencyName,
+        _VALUE: value,
       }),
     );
   }
@@ -582,7 +582,7 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'unlock_achievement',
       parameters: filterOutNulls(<String, dynamic>{
-        ACHIEVEMENT_ID: id,
+        _ACHIEVEMENT_ID: id,
       }),
     );
   }
@@ -622,24 +622,24 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'view_item',
       parameters: filterOutNulls(<String, dynamic>{
-        ITEM_ID: itemId,
-        ITEM_NAME: itemName,
-        ITEM_CATEGORY: itemCategory,
-        ITEM_LOCATION_ID: itemLocationId,
-        PRICE: price,
-        QUANTITY: quantity,
-        CURRENCY: currency,
-        VALUE: value,
-        FLIGHT_NUMBER: flightNumber,
-        NUMBER_OF_PASSENGERS: numberOfPassengers,
-        NUMBER_OF_NIGHTS: numberOfNights,
-        NUMBER_OF_ROOMS: numberOfRooms,
-        ORIGIN: origin,
-        DESTINATION: destination,
-        START_DATE: startDate,
-        END_DATE: endDate,
-        SEARCH_TERM: searchTerm,
-        TRAVEL_CLASS: travelClass,
+        _ITEM_ID: itemId,
+        _ITEM_NAME: itemName,
+        _ITEM_CATEGORY: itemCategory,
+        _ITEM_LOCATION_ID: itemLocationId,
+        _PRICE: price,
+        _QUANTITY: quantity,
+        _CURRENCY: currency,
+        _VALUE: value,
+        _FLIGHT_NUMBER: flightNumber,
+        _NUMBER_OF_PASSENGERS: numberOfPassengers,
+        _NUMBER_OF_NIGHTS: numberOfNights,
+        _NUMBER_OF_ROOMS: numberOfRooms,
+        _ORIGIN: origin,
+        _DESTINATION: destination,
+        _START_DATE: startDate,
+        _END_DATE: endDate,
+        _SEARCH_TERM: searchTerm,
+        _TRAVEL_CLASS: travelClass,
       }),
     );
   }
@@ -656,7 +656,7 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'view_item_list',
       parameters: filterOutNulls(<String, dynamic>{
-        ITEM_CATEGORY: itemCategory,
+        _ITEM_CATEGORY: itemCategory,
       }),
     );
   }
@@ -673,7 +673,7 @@ class FirebaseAnalytics {
     return logEvent(
       name: 'view_search_results',
       parameters: filterOutNulls(<String, dynamic>{
-        SEARCH_TERM: searchTerm,
+        _SEARCH_TERM: searchTerm,
       }),
     );
   }
@@ -725,121 +725,121 @@ const List<String> _reservedEventNames = const <String>[
 // https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.Param.html
 
 /// Game achievement ID.
-const String ACHIEVEMENT_ID = 'achievement_id';
+const String _ACHIEVEMENT_ID = 'achievement_id';
 
 /// `CAMPAIGN_DETAILS` click ID.
-const String ACLID = 'aclid';
+const String _ACLID = 'aclid';
 
 /// `CAMPAIGN_DETAILS` name; used for keyword analysis to identify a specific
 /// product promotion or strategic campaign.
-const String CAMPAIGN = 'campaign';
+const String _CAMPAIGN = 'campaign';
 
 /// Character used in game.
-const String CHARACTER = 'character';
+const String _CHARACTER = 'character';
 
 /// `CAMPAIGN_DETAILS` content; used for A/B testing and content-targeted ads to
 /// differentiate ads or links that point to the same URL.
-const String CONTENT = 'content';
+const String _CONTENT = 'content';
 
 /// Type of content selected.
-const String CONTENT_TYPE = 'content_type';
+const String _CONTENT_TYPE = 'content_type';
 
 /// Coupon code for a purchasable item.
-const String COUPON = 'coupon';
+const String _COUPON = 'coupon';
 
 /// `CAMPAIGN_DETAILS` custom parameter.
-const String CP1 = 'cp1';
+const String _CP1 = 'cp1';
 
 /// Purchase currency in 3 letter ISO_4217 format.
-const String CURRENCY = 'currency';
+const String _CURRENCY = 'currency';
 
 /// Flight or Travel destination.
-const String DESTINATION = 'destination';
+const String _DESTINATION = 'destination';
 
 /// The arrival date, check-out date, or rental end date for the item.
-const String END_DATE = 'end_date';
+const String _END_DATE = 'end_date';
 
 /// Flight number for travel events.
-const String FLIGHT_NUMBER = 'flight_number';
+const String _FLIGHT_NUMBER = 'flight_number';
 
 /// Group/clan/guild id.
-const String GROUP_ID = 'group_id';
+const String _GROUP_ID = 'group_id';
 
 /// Item category.
-const String ITEM_CATEGORY = 'item_category';
+const String _ITEM_CATEGORY = 'item_category';
 
 /// Item ID.
-const String ITEM_ID = 'item_id';
+const String _ITEM_ID = 'item_id';
 
 /// The Google Place ID that corresponds to the associated item.
-const String ITEM_LOCATION_ID = 'item_location_id';
+const String _ITEM_LOCATION_ID = 'item_location_id';
 
 /// Item name.
-const String ITEM_NAME = 'item_name';
+const String _ITEM_NAME = 'item_name';
 
 /// Level in game (long).
-const String LEVEL = 'level';
+const String _LEVEL = 'level';
 
 /// Location.
-const String LOCATION = 'location';
+const String _LOCATION = 'location';
 
 /// `CAMPAIGN_DETAILS` medium; used to identify a medium such as email or
 /// cost-per-click (cpc).
-const String MEDIUM = 'medium';
+const String _MEDIUM = 'medium';
 
 /// Number of nights staying at hotel (long).
-const String NUMBER_OF_NIGHTS = 'number_of_nights';
+const String _NUMBER_OF_NIGHTS = 'number_of_nights';
 
 /// Number of passengers traveling (long).
-const String NUMBER_OF_PASSENGERS = 'number_of_passengers';
+const String _NUMBER_OF_PASSENGERS = 'number_of_passengers';
 
 /// Number of rooms for travel events (long).
-const String NUMBER_OF_ROOMS = 'number_of_rooms';
+const String _NUMBER_OF_ROOMS = 'number_of_rooms';
 
 /// Flight or Travel origin.
-const String ORIGIN = 'origin';
+const String _ORIGIN = 'origin';
 
 /// Purchase price (double).
-const String PRICE = 'price';
+const String _PRICE = 'price';
 
 /// Purchase quantity (long).
-const String QUANTITY = 'quantity';
+const String _QUANTITY = 'quantity';
 
 /// Score in game (long).
-const String SCORE = 'score';
+const String _SCORE = 'score';
 
 /// The search string/keywords used.
-const String SEARCH_TERM = 'search_term';
+const String _SEARCH_TERM = 'search_term';
 
 /// Shipping cost (double).
-const String SHIPPING = 'shipping';
+const String _SHIPPING = 'shipping';
 
 /// Signup method.
-const String SIGN_UP_METHOD = 'sign_up_method';
+const String _SIGN_UP_METHOD = 'sign_up_method';
 
 /// `CAMPAIGN_DETAILS` source; used to identify a search engine, newsletter, or
 /// other source.
-const String SOURCE = 'source';
+const String _SOURCE = 'source';
 
 /// The departure date, check-in date, or rental start date for the item.
-const String START_DATE = 'start_date';
+const String _START_DATE = 'start_date';
 
 /// Tax amount (double).
-const String TAX = 'tax';
+const String _TAX = 'tax';
 
 /// `CAMPAIGN_DETAILS` term; used with paid search to supply the keywords for
 /// ads.
-const String TERM = 'term';
+const String _TERM = 'term';
 
 /// A single ID for a ecommerce group transaction.
-const String TRANSACTION_ID = 'transaction_id';
+const String _TRANSACTION_ID = 'transaction_id';
 
 /// Travel class.
-const String TRAVEL_CLASS = 'travel_class';
+const String _TRAVEL_CLASS = 'travel_class';
 
 /// A context-specific numeric value which is accumulated automatically for
 /// each event type.
-const String VALUE = 'value';
+const String _VALUE = 'value';
 
 /// Name of virtual currency type.
-const String VIRTUAL_CURRENCY_NAME = 'virtual_currency_name';
+const String _VIRTUAL_CURRENCY_NAME = 'virtual_currency_name';
