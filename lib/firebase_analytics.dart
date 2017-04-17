@@ -10,15 +10,16 @@ import 'package:flutter/services.dart';
 
 /// Firebase Analytics API.
 class FirebaseAnalytics {
-  static const PlatformMethodChannel _channel =
-      const PlatformMethodChannel('firebase_analytics');
-
   /// Provides an instance of this class.
-  factory FirebaseAnalytics() => const FirebaseAnalytics._();
+  factory FirebaseAnalytics() => const FirebaseAnalytics.private(const PlatformMethodChannel('firebase_analytics'));
 
   /// We don't want people to extend this class, but implementing its interface,
   /// e.g. in tests, is OK.
-  const FirebaseAnalytics._();
+  @visibleForTesting
+  const FirebaseAnalytics.private(PlatformMethodChannel platformChannel)
+    : _channel = platformChannel;
+
+  final PlatformMethodChannel _channel;
 
   /// Logs a custom Flutter Analytics event with the given [name] and event [parameters].
   Future<Null> logEvent({@required String name, Map<String, dynamic> parameters}) async {
@@ -77,7 +78,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'add_to_cart',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         ITEM_ID: itemId,
         ITEM_NAME: itemName,
         ITEM_CATEGORY: itemCategory,
@@ -116,7 +117,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'add_to_wishlist',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         ITEM_ID: itemId,
         ITEM_NAME: itemName,
         ITEM_CATEGORY: itemCategory,
@@ -162,7 +163,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'begin_checkout',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         VALUE: value,
         CURRENCY: currency,
         TRANSACTION_ID: transactionId,
@@ -194,7 +195,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'campaign_details',
-      parameters: _filterOutNulls(<String, String>{
+      parameters: filterOutNulls(<String, String>{
         SOURCE: source,
         MEDIUM: medium,
         CAMPAIGN: campaign,
@@ -219,7 +220,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'earn_virtual_currency',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         VIRTUAL_CURRENCY_NAME: virtualCurrencyName,
         VALUE: value,
       }),
@@ -256,7 +257,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'ecommerce_purchase',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         CURRENCY: currency,
         VALUE: value,
         TRANSACTION_ID: transactionId,
@@ -292,7 +293,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'generate_lead',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         CURRENCY: currency,
         VALUE: value,
       }),
@@ -311,7 +312,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'join_group',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         GROUP_ID: groupId,
       }),
     );
@@ -330,7 +331,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'level_up',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         LEVEL: level,
         CHARACTER: character,
       }),
@@ -362,7 +363,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'post_score',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         SCORE: score,
         LEVEL: level,
         CHARACTER: character,
@@ -393,7 +394,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'present_offer',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         ITEM_ID: itemId,
         ITEM_NAME: itemName,
         ITEM_CATEGORY: itemCategory,
@@ -422,7 +423,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'purchase_refund',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         CURRENCY: currency,
         VALUE: value,
         TRANSACTION_ID: transactionId,
@@ -450,7 +451,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'search',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         SEARCH_TERM: searchTerm,
         NUMBER_OF_NIGHTS: numberOfNights,
         NUMBER_OF_ROOMS: numberOfRooms,
@@ -478,7 +479,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'select_content',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         CONTENT_TYPE: contentType,
         ITEM_ID: itemId,
       }),
@@ -497,7 +498,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'share',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         CONTENT_TYPE: contentType,
         ITEM_ID: itemId,
       }),
@@ -517,7 +518,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'sign_up',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         SIGN_UP_METHOD: signUpMethod,
       }),
     );
@@ -536,7 +537,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'spend_virtual_currency',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         ITEM_NAME: itemName,
         VIRTUAL_CURRENCY_NAME: virtualCurrencyName,
         VALUE: value,
@@ -580,7 +581,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'unlock_achievement',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         ACHIEVEMENT_ID: id,
       }),
     );
@@ -620,7 +621,7 @@ class FirebaseAnalytics {
 
     return logEvent(
       name: 'view_item',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         ITEM_ID: itemId,
         ITEM_NAME: itemName,
         ITEM_CATEGORY: itemCategory,
@@ -654,7 +655,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'view_item_list',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         ITEM_CATEGORY: itemCategory,
       }),
     );
@@ -671,7 +672,7 @@ class FirebaseAnalytics {
   }) {
     return logEvent(
       name: 'view_search_results',
-      parameters: _filterOutNulls(<String, dynamic>{
+      parameters: filterOutNulls(<String, dynamic>{
         SEARCH_TERM: searchTerm,
       }),
     );
@@ -680,21 +681,23 @@ class FirebaseAnalytics {
 
 /// Creates a new map containing all of the key/value pairs from [parameters]
 /// except those whose value is `null`.
-Map<String, dynamic> _filterOutNulls(Map<String, dynamic> parameters) {
+@visibleForTesting
+Map<String, dynamic> filterOutNulls(Map<String, dynamic> parameters) {
   final Map<String, dynamic> filtered = <String, dynamic>{};
-  filtered.forEach((String key, dynamic value) {
+  parameters.forEach((String key, dynamic value) {
     if (value != null)
       filtered[key] = value;
   });
   return filtered;
 }
 
+@visibleForTesting
+const String valueAndCurrencyMustBeTogetherError = 'If you supply the "value" '
+    'parameter, you must also supply the "currency" parameter.';
+
 void _requireValueAndCurrencyTogether(double value, String currency) {
   if (value != null && currency == null) {
-    throw new ArgumentError(
-      'If you supply the "value" parameter, you must also supply the '
-      '"currency" parameter.'
-    );
+    throw new ArgumentError(valueAndCurrencyMustBeTogetherError);
   }
 }
 
