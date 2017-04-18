@@ -52,7 +52,7 @@ class FirebaseAnalytics {
   ///
   /// This feature must be used in accordance with [Google's Privacy Policy][1].
   ///
-  /// [1](https://www.google.com/policies/privacy/)
+  /// [1]: https://www.google.com/policies/privacy/
   Future<Null> setUserId(String id) async {
     if (id == null)
       throw new ArgumentError.notNull('id');
