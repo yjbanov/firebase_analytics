@@ -19,6 +19,7 @@ import io.flutter.plugin.common.MethodCall;
  * Flutter plugin for Firebase Analytics.
  */
 public class FirebaseAnalyticsPlugin implements MethodCallHandler {
+  private final FlutterActivity activity;
   private final FirebaseAnalytics firebaseAnalytics;
 
   public static FirebaseAnalyticsPlugin register(FlutterActivity activity) {
@@ -26,24 +27,94 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
   }
 
   private FirebaseAnalyticsPlugin(FlutterActivity activity) {
+    this.activity = activity;
     this.firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
     new FlutterMethodChannel(activity.getFlutterView(), "firebase_analytics").setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(MethodCall call, Response response) {
-    if (call.method.equals("logEvent")) {
-      @SuppressWarnings("unchecked")
-      Map<String, Object> arguments = (Map<String, Object>) call.arguments;
-      final String eventName = (String) arguments.get("name");
-
-      @SuppressWarnings("unchecked")
-      final Bundle parameterBundle = createBundleFromMap((Map<String, Object>) arguments.get("parameters"));
-      firebaseAnalytics.logEvent(eventName, parameterBundle);
-      response.success(null);
-    } else {
-      response.notImplemented();
+    switch (call.method) {
+      case "logEvent":
+        handleLogEvent(call, response);
+        break;
+      case "setUserId":
+        handleSetUserId(call, response);
+        break;
+      case "setCurrentScreen":
+        handleSetCurrentScreen(call, response);
+        break;
+      case "setAnalyticsCollectionEnabled":
+        handleSetAnalyticsCollectionEnabled(call, response);
+        break;
+      case "setMinimumSessionDuration":
+        handleSetMinimumSessionDuration(call, response);
+        break;
+      case "setSessionTimeoutDuration":
+        handleSetSessionTimeoutDuration(call, response);
+        break;
+      case "setUserProperty":
+        handleSetUserProperty(call, response);
+        break;
+      default:
+        response.notImplemented();
+        break;
     }
+  }
+
+  private void handleLogEvent(MethodCall call, Response response) {
+    @SuppressWarnings("unchecked")
+    Map<String, Object> arguments = (Map<String, Object>) call.arguments;
+    final String eventName = (String) arguments.get("name");
+
+    @SuppressWarnings("unchecked")
+    final Bundle parameterBundle = createBundleFromMap((Map<String, Object>) arguments.get("parameters"));
+    firebaseAnalytics.logEvent(eventName, parameterBundle);
+    response.success(null);
+  }
+
+  private void handleSetUserId(MethodCall call, Response response) {
+    final String id = (String) call.arguments;
+    firebaseAnalytics.setUserId(id);
+    response.success(null);
+  }
+
+  private void handleSetCurrentScreen(MethodCall call, Response response) {
+    @SuppressWarnings("unchecked")
+    Map<String, Object> arguments = (Map<String, Object>) call.arguments;
+    final String screenName = (String) arguments.get("screenName");
+    final String screenClassOverride = (String) arguments.get("screenClassOverride");
+
+    firebaseAnalytics.setCurrentScreen(activity, screenName, screenClassOverride);
+    response.success(null);
+  }
+
+  private void handleSetAnalyticsCollectionEnabled(MethodCall call, Response response) {
+    final Boolean enabled = (Boolean) call.arguments;
+    firebaseAnalytics.setAnalyticsCollectionEnabled(enabled);
+    response.success(null);
+  }
+
+  private void handleSetMinimumSessionDuration(MethodCall call, Response response) {
+    final Integer milliseconds = (Integer) call.arguments;
+    firebaseAnalytics.setMinimumSessionDuration(milliseconds);
+    response.success(null);
+  }
+
+  private void handleSetSessionTimeoutDuration(MethodCall call, Response response) {
+    final Integer milliseconds = (Integer) call.arguments;
+    firebaseAnalytics.setSessionTimeoutDuration(milliseconds);
+    response.success(null);
+  }
+
+  private void handleSetUserProperty(MethodCall call, Response response) {
+    @SuppressWarnings("unchecked")
+    Map<String, Object> arguments = (Map<String, Object>) call.arguments;
+    final String name = (String) arguments.get("name");
+    final String value = (String) arguments.get("value");
+
+    firebaseAnalytics.setUserProperty(name, value);
+    response.success(null);
   }
 
   private static Bundle createBundleFromMap(Map<String, Object> map) {

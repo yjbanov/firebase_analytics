@@ -37,17 +37,49 @@ class _MyHomePageState extends State<MyHomePage> {
   String _message = '';
   final FirebaseAnalytics analytics = new FirebaseAnalytics();
 
-  void _sendAnalyticsEvent() {
-    analytics.logEvent(name: 'test_event').then((_) async {
-      setState(() {
-        _message = 'Analytics event sent successfully';
-      });
-
-      await new Future.delayed(const Duration(seconds: 1));
-      setState(() {
-        _message = '';
-      });
+  void setMessage(String message) {
+    setState(() {
+      _message = message;
     });
+  }
+
+  Future<Null> _sendAnalyticsEvent() async {
+    await analytics.logEvent(name: 'test_event');
+    setMessage('logEvent succeeded');
+  }
+
+  Future<Null> _testSetUserId() async {
+    await analytics.setUserId('some-user');
+    setMessage('setUserId succeeded');
+  }
+
+  Future<Null> _testSetCurrentScreen() async {
+    await analytics.setCurrentScreen(
+      screenName: 'Analytics Demo',
+      screenClassOverride: 'AnalyticsDemo',
+    );
+    setMessage('setCurrentScreen succeeded');
+  }
+
+  Future<Null> _testSetAnalyticsCollectionEnabled() async {
+    await analytics.setAnalyticsCollectionEnabled(false);
+    await analytics.setAnalyticsCollectionEnabled(true);
+    setMessage('setAnalyticsCollectionEnabled succeeded');
+  }
+
+  Future<Null> _testSetMinimumSessionDuration() async {
+    await analytics.setMinimumSessionDuration(20000);
+    setMessage('setMinimumSessionDuration succeeded');
+  }
+
+  Future<Null> _testSetSessionTimeoutDuration() async {
+    await analytics.setSessionTimeoutDuration(2000000);
+    setMessage('setSessionTimeoutDuration succeeded');
+  }
+
+  Future<Null> _testSetUserProperty() async {
+    await analytics.setUserProperty('regular', 'indeed');
+    setMessage('setUserProperty succeeded');
   }
 
   Future<Null> _testAllEventTypes() async {
@@ -208,6 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await analytics.logViewSearchResults(
       searchTerm: 'test search term',
     );
+    setMessage('All standard events logged successfully');
   }
 
   @override
@@ -218,22 +251,40 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: new Column(
         children: <Widget>[
-          new Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              new Text(_message),
-            ],
+          new MaterialButton(
+            child: const Text('Test logEvent'),
+            onPressed: _sendAnalyticsEvent,
           ),
           new MaterialButton(
-            child: const Text('Test all event types'),
+            child: const Text('Test standard event types'),
             onPressed: _testAllEventTypes,
           ),
+          new MaterialButton(
+            child: const Text('Test setUserId'),
+            onPressed: _testSetUserId,
+          ),
+          new MaterialButton(
+            child: const Text('Test setCurrentScreen'),
+            onPressed: _testSetCurrentScreen,
+          ),
+          new MaterialButton(
+            child: const Text('Test setAnalyticsCollectionEnabled'),
+            onPressed: _testSetAnalyticsCollectionEnabled,
+          ),
+          new MaterialButton(
+            child: const Text('Test setMinimumSessionDuration'),
+            onPressed: _testSetMinimumSessionDuration,
+          ),
+          new MaterialButton(
+            child: const Text('Test setSessionTimeoutDuration'),
+            onPressed: _testSetSessionTimeoutDuration,
+          ),
+          new MaterialButton(
+            child: const Text('Test setUserProperty'),
+            onPressed: _testSetUserProperty,
+          ),
+          new Text(_message, style: const TextStyle(color: const Color.fromARGB(255, 0, 155, 0))),
         ],
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _sendAnalyticsEvent,
-        tooltip: 'Send Analytics Event',
-        child: new Icon(Icons.add),
       ),
     );
   }

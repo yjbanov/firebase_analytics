@@ -41,6 +41,103 @@ class FirebaseAnalytics {
     });
   }
 
+  /// Sets the user ID property.
+  ///
+  /// This feature must be used in accordance with [Google's Privacy Policy][1].
+  ///
+  /// [1](https://www.google.com/policies/privacy/)
+  Future<Null> setUserId(String id) async {
+    if (id == null)
+      throw new ArgumentError.notNull('id');
+
+    await _channel.invokeMethod('setUserId', id);
+  }
+
+  /// Sets the current [screenName], which specifies the current visual context
+  /// in your app.
+  ///
+  /// This helps identify the areas in your app where users spend their time
+  /// and how they interact with your app.
+  ///
+  /// The class name can optionally be overridden by the [screenClassOverride]
+  /// parameter.
+  ///
+  /// The [screenName] and [screenClassOverride] remain in effect until the
+  /// current `Activity` (in Android) or `UIViewController` (in iOS) changes or
+  /// a new call to [setCurrentScreen] is made.
+  ///
+  /// See also:
+  ///
+  /// https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.html#setCurrentScreen(android.app.Activity, java.lang.String, java.lang.String)
+  /// https://firebase.google.com/docs/reference/ios/firebaseanalytics/api/reference/Classes/FIRAnalytics#setscreennamescreenclass
+  Future<Null> setCurrentScreen({@required String screenName, String screenClassOverride}) async {
+    if (screenName == null)
+      throw new ArgumentError.notNull('screenName');
+
+    await _channel.invokeMethod('setCurrentScreen', <String, String>{
+      'screenName': screenName,
+      'screenClassOverride': screenClassOverride,
+    });
+  }
+
+  /// Sets whether analytics collection is enabled for this app on this device.
+  ///
+  /// This setting is persisted across app sessions. By default it is enabled.
+  Future<Null> setAnalyticsCollectionEnabled(bool enabled) async {
+    if (enabled == null)
+      throw new ArgumentError.notNull('enabled');
+
+    await _channel.invokeMethod('setAnalyticsCollectionEnabled', enabled);
+  }
+
+  /// Sets the minimum engagement time required before starting a session.
+  ///
+  /// The default value is 10000 (10 seconds).
+  Future<Null> setMinimumSessionDuration(int milliseconds) async {
+    if (milliseconds == null)
+      throw new ArgumentError.notNull('milliseconds');
+
+    await _channel.invokeMethod('setMinimumSessionDuration', milliseconds);
+  }
+
+  /// Sets the duration of inactivity that terminates the current session.
+  ///
+  /// The default value is 1800000 (30 minutes).
+  Future<Null> setSessionTimeoutDuration(int milliseconds) async {
+    if (milliseconds == null)
+      throw new ArgumentError.notNull('milliseconds');
+
+    await _channel.invokeMethod('setSessionTimeoutDuration', milliseconds);
+  }
+
+  static final RegExp _nonAlphaNumeric = new RegExp(r'[^a-zA-Z0-9_]');
+  static final RegExp _alpha = new RegExp(r'[a-zA-Z]');
+
+  /// Sets a user property to a given value.
+  ///
+  /// Up to 25 user property names are supported. Once set, user property
+  /// values persist throughout the app lifecycle and across sessions.
+  ///
+  /// [name] is the name of the user property to set. Should contain 1 to 24
+  /// alphanumeric characters or underscores and must start with an alphabetic
+  /// character. The "firebase_" prefix is reserved and should not be used for
+  /// user property names.
+  Future<Null> setUserProperty(String name, String value) async {
+    if (name == null)
+      throw new ArgumentError.notNull('name');
+
+    if (name.isEmpty || name.length > 24 || name.indexOf(_alpha) != 0 || name.contains(_nonAlphaNumeric))
+      throw new ArgumentError.value(name, 'name', 'must contain 1 to 24 alphanumeric characters.');
+
+    if (name.startsWith('firebase_'))
+      throw new ArgumentError.value(name, 'name', '"firebase_" prefix is reserved');
+
+    await _channel.invokeMethod('setUserProperty', <String, String>{
+      'name': name,
+      'value': value,
+    });
+  }
+
   /// Logs the standard `add_payment_info` event.
   ///
   /// This event signifies that a user has submitted their payment information
