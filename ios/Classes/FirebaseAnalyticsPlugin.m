@@ -33,6 +33,20 @@
         }
 
         result(nil);
+      } else if ([@"setUserId" isEqualToString:call.method]) {
+        NSString *userId = call.arguments;
+        [FIRAnalytics setUserID:userId];
+        result(nil);
+      } else if ([@"setCurrentScreen" isEqualToString:call.method]) {
+        NSString *screenName = call.arguments[@"screenName"];
+        NSString *screenClassOverride = call.arguments[@"screenClassOverride"];
+        [FIRAnalytics setScreenName:screenName screenClass:screenClassOverride];
+        result(nil);
+      } else if ([@"setUserProperty" isEqualToString:call.method]) {
+        NSString *name = call.arguments[@"name"];
+        NSString *value = call.arguments[@"value"];
+        [FIRAnalytics setUserPropertyString:value forName:name];
+        result(nil);
       } else {
         NSString *message = [NSString stringWithFormat:@"Method not implemented: %@", call.method];
         result([FlutterError errorWithCode:message

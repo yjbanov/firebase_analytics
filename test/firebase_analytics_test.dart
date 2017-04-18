@@ -26,6 +26,82 @@ void main() {
   group('$FirebaseAnalytics', () {
     FirebaseAnalytics analytics;
 
+    String invokedMethod;
+    dynamic arguments;
+
+    setUp(() {
+      MockPlatformChannel mockChannel = new MockPlatformChannel();
+
+      invokedMethod = null;
+      arguments = null;
+
+      when(mockChannel.invokeMethod(any, any)).thenAnswer((Invocation invocation) {
+        invokedMethod = invocation.positionalArguments[0];
+        arguments = invocation.positionalArguments[1];
+      });
+
+      analytics = new FirebaseAnalytics.private(mockChannel);
+    });
+
+    test('setUserId', () async {
+      await analytics.setUserId('test-user-id');
+      expect(invokedMethod, 'setUserId');
+      expect(arguments, 'test-user-id');
+    });
+
+    test('setCurrentScreen', () async {
+      await analytics.setCurrentScreen(screenName: 'test-screen-name', screenClassOverride: 'test-class-override');
+      expect(invokedMethod, 'setCurrentScreen');
+      expect(arguments, <String, String>{
+        'screenName': 'test-screen-name',
+        'screenClassOverride': 'test-class-override',
+      });
+    });
+
+    test('setUserProperty', () async {
+      await analytics.setUserProperty(name: 'test_name', value: 'test-value');
+      expect(invokedMethod, 'setUserProperty');
+      expect(arguments, <String, String>{
+        'name': 'test_name',
+        'value': 'test-value',
+      });
+    });
+
+    test('setUserProperty rejects invalid names', () async {
+      // invalid character
+      expect(analytics.setUserProperty(name: 'test-name', value: 'test-value'), throwsArgumentError);
+      // non-alpha first character
+      expect(analytics.setUserProperty(name: '0test', value: 'test-value'), throwsArgumentError);
+      // null
+      expect(analytics.setUserProperty(name: null, value: 'test-value'), throwsArgumentError);
+      // blank
+      expect(analytics.setUserProperty(name: '', value: 'test-value'), throwsArgumentError);
+      // reserved prefix
+      expect(analytics.setUserProperty(name: 'firebase_test', value: 'test-value'), throwsArgumentError);
+    });
+
+    test('setAnalyticsCollectionEnabled', () async {
+      await analytics.android.setAnalyticsCollectionEnabled(false);
+      expect(invokedMethod, 'setAnalyticsCollectionEnabled');
+      expect(arguments, false);
+    });
+
+    test('setMinimumSessionDuration', () async {
+      await analytics.android.setMinimumSessionDuration(123);
+      expect(invokedMethod, 'setMinimumSessionDuration');
+      expect(arguments, 123);
+    });
+
+    test('setSessionTimeoutDuration', () async {
+      await analytics.android.setSessionTimeoutDuration(234);
+      expect(invokedMethod, 'setSessionTimeoutDuration');
+      expect(arguments, 234);
+    });
+  });
+
+  group('$FirebaseAnalytics analytics events', () {
+    FirebaseAnalytics analytics;
+
     String name;
     Map<String, dynamic> parameters;
 
