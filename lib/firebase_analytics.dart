@@ -10,16 +10,23 @@ import 'package:flutter/services.dart';
 
 /// Firebase Analytics API.
 class FirebaseAnalytics {
+  static final FirebaseAnalytics _instance = new FirebaseAnalytics.private(const PlatformMethodChannel('firebase_analytics'));
+
   /// Provides an instance of this class.
-  factory FirebaseAnalytics() => const FirebaseAnalytics.private(const PlatformMethodChannel('firebase_analytics'));
+  factory FirebaseAnalytics() => _instance;
 
   /// We don't want people to extend this class, but implementing its interface,
   /// e.g. in tests, is OK.
   @visibleForTesting
-  const FirebaseAnalytics.private(PlatformMethodChannel platformChannel)
-    : _channel = platformChannel;
+  FirebaseAnalytics.private(PlatformMethodChannel platformChannel)
+    : _channel = platformChannel,
+      _androidApi = new FirebaseAnalyticsAndroid.private(platformChannel);
 
   final PlatformMethodChannel _channel;
+  final FirebaseAnalyticsAndroid _androidApi;
+
+  /// Namespace for analytics API available on Android only.
+  FirebaseAnalyticsAndroid get android => _androidApi;
 
   /// Logs a custom Flutter Analytics event with the given [name] and event [parameters].
   Future<Null> logEvent({@required String name, Map<String, dynamic> parameters}) async {
@@ -80,36 +87,6 @@ class FirebaseAnalytics {
     });
   }
 
-  /// Sets whether analytics collection is enabled for this app on this device.
-  ///
-  /// This setting is persisted across app sessions. By default it is enabled.
-  Future<Null> setAnalyticsCollectionEnabled(bool enabled) async {
-    if (enabled == null)
-      throw new ArgumentError.notNull('enabled');
-
-    await _channel.invokeMethod('setAnalyticsCollectionEnabled', enabled);
-  }
-
-  /// Sets the minimum engagement time required before starting a session.
-  ///
-  /// The default value is 10000 (10 seconds).
-  Future<Null> setMinimumSessionDuration(int milliseconds) async {
-    if (milliseconds == null)
-      throw new ArgumentError.notNull('milliseconds');
-
-    await _channel.invokeMethod('setMinimumSessionDuration', milliseconds);
-  }
-
-  /// Sets the duration of inactivity that terminates the current session.
-  ///
-  /// The default value is 1800000 (30 minutes).
-  Future<Null> setSessionTimeoutDuration(int milliseconds) async {
-    if (milliseconds == null)
-      throw new ArgumentError.notNull('milliseconds');
-
-    await _channel.invokeMethod('setSessionTimeoutDuration', milliseconds);
-  }
-
   static final RegExp _nonAlphaNumeric = new RegExp(r'[^a-zA-Z0-9_]');
   static final RegExp _alpha = new RegExp(r'[a-zA-Z]');
 
@@ -122,7 +99,7 @@ class FirebaseAnalytics {
   /// alphanumeric characters or underscores and must start with an alphabetic
   /// character. The "firebase_" prefix is reserved and should not be used for
   /// user property names.
-  Future<Null> setUserProperty(String name, String value) async {
+  Future<Null> setUserProperty({@required String name, @required String value}) async {
     if (name == null)
       throw new ArgumentError.notNull('name');
 
@@ -773,6 +750,44 @@ class FirebaseAnalytics {
         _SEARCH_TERM: searchTerm,
       }),
     );
+  }
+}
+
+/// Android-specific analytics API.
+class FirebaseAnalyticsAndroid {
+  final PlatformMethodChannel _channel;
+
+  @visibleForTesting
+  const FirebaseAnalyticsAndroid.private(this._channel);
+
+  /// Sets whether analytics collection is enabled for this app on this device.
+  ///
+  /// This setting is persisted across app sessions. By default it is enabled.
+  Future<Null> setAnalyticsCollectionEnabled(bool enabled) async {
+    if (enabled == null)
+      throw new ArgumentError.notNull('enabled');
+
+    await _channel.invokeMethod('setAnalyticsCollectionEnabled', enabled);
+  }
+
+  /// Sets the minimum engagement time required before starting a session.
+  ///
+  /// The default value is 10000 (10 seconds).
+  Future<Null> setMinimumSessionDuration(int milliseconds) async {
+    if (milliseconds == null)
+      throw new ArgumentError.notNull('milliseconds');
+
+    await _channel.invokeMethod('setMinimumSessionDuration', milliseconds);
+  }
+
+  /// Sets the duration of inactivity that terminates the current session.
+  ///
+  /// The default value is 1800000 (30 minutes).
+  Future<Null> setSessionTimeoutDuration(int milliseconds) async {
+    if (milliseconds == null)
+      throw new ArgumentError.notNull('milliseconds');
+
+    await _channel.invokeMethod('setSessionTimeoutDuration', milliseconds);
   }
 }
 
