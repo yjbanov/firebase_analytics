@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 /// Firebase Analytics API.
 class FirebaseAnalytics {
@@ -20,13 +21,23 @@ class FirebaseAnalytics {
   @visibleForTesting
   FirebaseAnalytics.private(PlatformMethodChannel platformChannel)
     : _channel = platformChannel,
-      _androidApi = new FirebaseAnalyticsAndroid.private(platformChannel);
+      android = defaultTargetPlatform == TargetPlatform.android
+        ? new FirebaseAnalyticsAndroid.private(platformChannel)
+        : null;
 
   final PlatformMethodChannel _channel;
-  final FirebaseAnalyticsAndroid _androidApi;
 
   /// Namespace for analytics API available on Android only.
-  FirebaseAnalyticsAndroid get android => _androidApi;
+  ///
+  /// The value of this field is `null` on non-Android platforms. If you are
+  /// writing cross-platform code, consider using null-aware operator when
+  /// accessing it.
+  ///
+  /// Example:
+  ///
+  ///     FirebaseAnalytics analytics = new FirebaseAnalytics();
+  ///     analytics.android?.setMinimumSessionDuration(200000);
+  final FirebaseAnalyticsAndroid android;
 
   /// Logs a custom Flutter Analytics event with the given [name] and event [parameters].
   Future<Null> logEvent({@required String name, Map<String, dynamic> parameters}) async {

@@ -62,18 +62,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<Null> _testSetAnalyticsCollectionEnabled() async {
-    await analytics.android.setAnalyticsCollectionEnabled(false);
-    await analytics.android.setAnalyticsCollectionEnabled(true);
+    await analytics.android?.setAnalyticsCollectionEnabled(false);
+    await analytics.android?.setAnalyticsCollectionEnabled(true);
     setMessage('setAnalyticsCollectionEnabled succeeded');
   }
 
   Future<Null> _testSetMinimumSessionDuration() async {
-    await analytics.android.setMinimumSessionDuration(20000);
+    await analytics.android?.setMinimumSessionDuration(20000);
     setMessage('setMinimumSessionDuration succeeded');
   }
 
   Future<Null> _testSetSessionTimeoutDuration() async {
-    await analytics.android.setSessionTimeoutDuration(2000000);
+    await analytics.android?.setSessionTimeoutDuration(2000000);
     setMessage('setSessionTimeoutDuration succeeded');
   }
 
