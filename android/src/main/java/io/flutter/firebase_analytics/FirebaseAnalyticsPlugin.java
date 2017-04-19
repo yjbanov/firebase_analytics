@@ -6,6 +6,7 @@ package io.flutter.firebase_analytics;
 
 import java.util.Map;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import android.os.Bundle;
 
@@ -28,6 +29,7 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
 
   private FirebaseAnalyticsPlugin(FlutterActivity activity) {
     this.activity = activity;
+    FirebaseApp.initializeApp(activity);
     this.firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
     new FlutterMethodChannel(activity.getFlutterView(), "firebase_analytics").setMethodCallHandler(this);
   }
