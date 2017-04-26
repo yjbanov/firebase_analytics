@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 
 /// Firebase Analytics API.
 class FirebaseAnalytics {
-  static final FirebaseAnalytics _instance = new FirebaseAnalytics.private(const PlatformMethodChannel('firebase_analytics'));
+  static final FirebaseAnalytics _instance = new FirebaseAnalytics.private(const MethodChannel('firebase_analytics'));
 
   /// Provides an instance of this class.
   factory FirebaseAnalytics() => _instance;
@@ -19,13 +19,13 @@ class FirebaseAnalytics {
   /// We don't want people to extend this class, but implementing its interface,
   /// e.g. in tests, is OK.
   @visibleForTesting
-  FirebaseAnalytics.private(PlatformMethodChannel platformChannel)
+  FirebaseAnalytics.private(MethodChannel platformChannel)
     : _channel = platformChannel,
       android = defaultTargetPlatform == TargetPlatform.android
         ? new FirebaseAnalyticsAndroid.private(platformChannel)
         : null;
 
-  final PlatformMethodChannel _channel;
+  final MethodChannel _channel;
 
   /// Namespace for analytics API available on Android only.
   ///
@@ -766,7 +766,7 @@ class FirebaseAnalytics {
 
 /// Android-specific analytics API.
 class FirebaseAnalyticsAndroid {
-  final PlatformMethodChannel _channel;
+  final MethodChannel _channel;
 
   @visibleForTesting
   const FirebaseAnalyticsAndroid.private(this._channel);

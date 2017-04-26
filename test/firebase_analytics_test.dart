@@ -325,4 +325,4 @@ void main() {
   });
 }
 
-class MockPlatformChannel extends Mock implements PlatformMethodChannel { }
+class MockPlatformChannel extends Mock implements MethodChannel { }
