@@ -19,7 +19,7 @@
                                      methodChannelWithName:@"firebase_analytics"
                                      binaryMessenger:controller];
     [channel setMethodCallHandler:^(FlutterMethodCall *call,
-                                    FlutterResultReceiver result) {
+                                    FlutterResult result) {
       if ([@"logEvent" isEqualToString:call.method]) {
         NSString *eventName = call.arguments[@"name"];
         id parameterMap = call.arguments[@"parameters"];
