@@ -11,9 +11,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import android.os.Bundle;
 
 import io.flutter.app.FlutterActivity;
-import io.flutter.plugin.common.FlutterMethodChannel;
-import io.flutter.plugin.common.FlutterMethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.FlutterMethodChannel.Response;
+import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
+import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.MethodCall;
 
 /**
@@ -31,11 +31,11 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
     this.activity = activity;
     FirebaseApp.initializeApp(activity);
     this.firebaseAnalytics = FirebaseAnalytics.getInstance(activity);
-    new FlutterMethodChannel(activity.getFlutterView(), "firebase_analytics").setMethodCallHandler(this);
+    new MethodChannel(activity.getFlutterView(), "firebase_analytics").setMethodCallHandler(this);
   }
 
   @Override
-  public void onMethodCall(MethodCall call, Response response) {
+  public void onMethodCall(MethodCall call, Result response) {
     switch (call.method) {
       case "logEvent":
         handleLogEvent(call, response);
@@ -64,7 +64,7 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
     }
   }
 
-  private void handleLogEvent(MethodCall call, Response response) {
+  private void handleLogEvent(MethodCall call, Result response) {
     @SuppressWarnings("unchecked")
     Map<String, Object> arguments = (Map<String, Object>) call.arguments;
     final String eventName = (String) arguments.get("name");
@@ -75,13 +75,13 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
     response.success(null);
   }
 
-  private void handleSetUserId(MethodCall call, Response response) {
+  private void handleSetUserId(MethodCall call, Result response) {
     final String id = (String) call.arguments;
     firebaseAnalytics.setUserId(id);
     response.success(null);
   }
 
-  private void handleSetCurrentScreen(MethodCall call, Response response) {
+  private void handleSetCurrentScreen(MethodCall call, Result response) {
     @SuppressWarnings("unchecked")
     Map<String, Object> arguments = (Map<String, Object>) call.arguments;
     final String screenName = (String) arguments.get("screenName");
@@ -91,25 +91,25 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler {
     response.success(null);
   }
 
-  private void handleSetAnalyticsCollectionEnabled(MethodCall call, Response response) {
+  private void handleSetAnalyticsCollectionEnabled(MethodCall call, Result response) {
     final Boolean enabled = (Boolean) call.arguments;
     firebaseAnalytics.setAnalyticsCollectionEnabled(enabled);
     response.success(null);
   }
 
-  private void handleSetMinimumSessionDuration(MethodCall call, Response response) {
+  private void handleSetMinimumSessionDuration(MethodCall call, Result response) {
     final Integer milliseconds = (Integer) call.arguments;
     firebaseAnalytics.setMinimumSessionDuration(milliseconds);
     response.success(null);
   }
 
-  private void handleSetSessionTimeoutDuration(MethodCall call, Response response) {
+  private void handleSetSessionTimeoutDuration(MethodCall call, Result response) {
     final Integer milliseconds = (Integer) call.arguments;
     firebaseAnalytics.setSessionTimeoutDuration(milliseconds);
     response.success(null);
   }
 
-  private void handleSetUserProperty(MethodCall call, Response response) {
+  private void handleSetUserProperty(MethodCall call, Result response) {
     @SuppressWarnings("unchecked")
     Map<String, Object> arguments = (Map<String, Object>) call.arguments;
     final String name = (String) arguments.get("name");
